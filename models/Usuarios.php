@@ -22,45 +22,11 @@
             break;
         }
         case "crear":{
-            if(!isset($_POST["nombres"])){
-                $error = json_encode(array(
-                    "codigo"=>"400",
-                    "datos"=>"No se completo el campo nombres."
-                ));
+            verficarDato($_POST["nombres"], "nombres", "existe", "vacio");
+            verficarDato($_POST["apellidos"], "apellidos", "existe", "vacio");
+            verficarDato($_POST["usuario"], "usuario", "existe", "vacio");
+            verficarDato($_POST["contra"], "contrasena", "existe", "vacio");
 
-                echo $error;
-                die();
-            }
-            
-            if(!isset($_POST["apellidos"])){
-                $error = json_encode(array(
-                    "codigo"=>"400",
-                    "datos"=>"No se completo el campo apellidos."
-                ));
-
-                echo $error;
-                die();
-            }
-
-            if(!isset($_POST["usuario"])){
-                $error = json_encode(array(
-                    "codigo"=>"400",
-                    "datos"=>"No se completo el campo usuario."
-                ));
-
-                echo $error;
-                die();
-            }
-
-            if(!isset($_POST["contra"])){
-                $error = json_encode(array(
-                    "codigo"=>"400",
-                    "datos"=>"No se completo el campo contrasena."
-                ));
-
-                echo $error;
-                die();
-            }
             $estado = (isset($_POST["estado"])?$_POST["estado"]:0);
  
             $nombres = $_POST["nombres"]; 
@@ -77,28 +43,14 @@
                 VALUES
                 ('$nombres', '$apellidos', '$estado')");
                 $nuevoUsuario = $bd->ejecutar();
-
-
                 
-                $error = json_encode(array(
-                    "codigo"=>"404",
-                    "datos"=>"No se encontro la persona"
-                ));
-
-                echo $error;
-                die();
+                MensajeUsuario(404, "No se encontro la persona");
             }
 
             $bd->consulta("SELECT * FROM usuarios WHERE usuario = '$usuario'");
             $usuario = $bd->obtenerResultado();
             if($usuario){
-                $error = json_encode(array(
-                    "codigo"=>"404",
-                    "datos"=>"El usuario ya existe"
-                ));
-
-                echo $error;
-                die();
+                MensajeUsuario(404, "El usuario ya existe");
             }
 
             $bd->consulta("INSERT INTO usuar 
