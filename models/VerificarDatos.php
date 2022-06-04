@@ -69,6 +69,18 @@ function verficarDato($dato, $campo, ...$args){
                 }
                 break;
             }
+
+            case "fecha":{
+                $split = explode("/", $dato);
+                if(isset($split[1]) == false){
+                    return MensajeUsuario(400, "El $campo no es una fecha valida. Ej. 01/01/2022. Probablemente falta el mes.");
+                }else if(isset($split[2]) == false){
+                    return MensajeUsuario(400, "El $campo no es una fecha valida. Ej. 01/01/2022. Probablemente falta el anio.");
+                }else if(checkdate($split[1], $split[0], $split[2]) == false){
+                    return MensajeUsuario(400, "El $campo no es una fecha valida. Ej. 01/01/2022");
+                }
+                break;
+            }
         }
     }
     return MensajeUsuario(200, $dato);
