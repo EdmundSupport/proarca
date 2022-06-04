@@ -1,21 +1,19 @@
 <?php
 function MensajeUsuario($codigo, $datos){
-    $error = json_encode(array(
-        "codigo"=>"400",
+    $error = array(
+        "codigo"=>$codigo,
         "datos"=> $datos
-    ));
+    );
 
-    echo $error;
-    exit();
+    return $error;
 }
 
 function MensajeProgramador($codigo, $datos){
-    $error = json_encode(array(
-        "codigo"=>"400",
+    $error = array(
+        "codigo"=>$codigo,
         "datos"=> $datos
-    ));
+    );
 
-    echo $error;
-    exit();
+    return $error;
 }
 ?>
