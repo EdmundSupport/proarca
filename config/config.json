@@ -1,5 +1,7 @@
 {
     "nombre": "Proarca",
     "host": "http://localhost/proarca/",
-    "ip": "127.0.0.1"
+    "ip": "127.0.0.1",
+    "autor": "Edmundo A. Guerrero",
+    "anio": "2022"
 }
