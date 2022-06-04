@@ -94,10 +94,30 @@ CREATE INDEX `fk_productos_categorias_productos1_idx` ON `proarca`.`productos` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `proarca`.`modulos` (
   `modulos_id` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(50) NOT NULL,
+  `nombre` VARCHAR(50) NOT NaULL,
   `estado` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`modulos_id`))
 ENGINE = InnoDB;
+
+ALTER TABLE `proarca`.`modulos`
+ADD COLUMN `icon` VARCHAR(15) AFTER `nombre`;
+
+ALTER TABLE `proarca`.`modulos`
+ADD COLUMN `ruta` VARCHAR(50) AFTER `modulos_id`;
+
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('1', 'Tablero.php', 'Tablero', 'dashboard', '1');
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('2', 'Cotizacion.php', 'Cotizaciones', 'dashboard', '1');
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('3', 'Renta.php', 'Rentas', 'dashboard', '1');
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('4', 'RentaDev.php', 'Devoluciones Rentas', 'dashboard', '1');
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('5', 'Compra.php', 'Compras', 'dashboard', '1');
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('6', 'ClienteCat.php', 'Categoria Clientes', 'dashboard', '1');
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('7', 'Cliente.php', 'Clientes', 'dashboard', '1');
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('8', 'ProveedoresCat.php', 'Categoria Proveedores', 'dashboard', '1');
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('9', 'Proveedore.php', 'Proveedores', 'dashboard', '1');
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('10', 'ProductoCat.php', 'Categoria Productos', 'dashboard', '1');
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('11', 'Producto.php', 'Productos', 'dashboard', '1');
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('12', 'Mantenimiento.php', 'Mantenimiento Productos', 'dashboard', '1');
+INSERT INTO `proarca`.`modulos` (`modulos_id`, `ruta`, `nombre`, `icon`, `estado`) VALUES ('13', 'Usuario.php', 'Usuarios', 'dashboard', '1');
 
 
 -- -----------------------------------------------------
