@@ -4,14 +4,16 @@
     ini_set('display_startup_errors', 1); 
     error_reporting(E_ALL);
 
-    require_once("./../controlers/Errores.php");
+    require_once("../../controlers/config.php");
+    require_once("$dirControlers/Errores.php");
             
     require_once("Basedatos.php");
     $bd = new Basedatos();
     
     function obtenerModulos(){
+        global $bd;
         $bd->consulta("SELECT * FROM modulos");
-        $modulos = $bd->obtenerResultado();
+        $modulos = $bd->obtenerResultados();
         if($modulos){
             return MensajeUsuario(200,$modulos);
         }else{
