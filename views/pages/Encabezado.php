@@ -18,14 +18,14 @@
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
               <?php if(isset($_SESSION["usuario"]) && $_SESSION["usuario"] != ""){ ?>
-              <a href="" class="nav-link text-body font-weight-bold px-0">
+              <a href="CerrarSesion.php" class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Iniciar Sesion</span>
+                <span class="d-sm-inline d-none">Cerrar Sesion</span>
               </a>
               <?php }else{ ?>
-              <a href="" class="nav-link text-body font-weight-bold px-0">
+              <a href="IniciarSesion.php" class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Registrarse</span>
+                <span class="d-sm-inline d-none">Iniciar Session</span>
               </a>
               <?php } ?>
             </li>
