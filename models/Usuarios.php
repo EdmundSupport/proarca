@@ -83,7 +83,7 @@
             }
             
             default:{
-                MensajeUsuario(404, "No se encontro la accion");
+                echo json_encode(MensajeUsuario(404, "No se encontro la accion"));
             }
         }
     }
