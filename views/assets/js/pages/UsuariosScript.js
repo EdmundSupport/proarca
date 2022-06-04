@@ -41,6 +41,11 @@ export async function obtenerConUsuarioContra(usuario, contra) {
     .catch((error) => console.log("error", error));
 }
 
+export async function crearUsuario() {
+  usuarios.usuario = document.getElementById("usuario").value;
+  usuarios.contra = document.getElementById("contra").value;
+}
+
 export async function iniciarSesion() {
   usuarios.usuario = document.getElementById("usuario").value;
   usuarios.contra = document.getElementById("contra").value;
@@ -60,7 +65,7 @@ export async function iniciarSesion() {
   }
 }
 
-// Autenticacion de Usuario
-export function verificarExisteUsuario() {
-  obtenerFormIniciarSesion();
+export async function registrarse() {
+  usuarios.usuario = document.getElementById("usuario").value;
+  usuarios.contra = document.getElementById("contra").value;
 }
