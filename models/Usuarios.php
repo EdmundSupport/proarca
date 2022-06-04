@@ -18,6 +18,9 @@
         $contra = verficarDato($contra, "contrasena", "existe", "vacio", "longitud=8-20");
         if($contra["codigo"] != 200) return $contra;
 
+        $usuario = $usuario["datos"];
+        $contra = $contra["datos"];
+
         $bd->consulta("SELECT * FROM usuarios WHERE usuario = '$usuario' AND contra = '$contra'");
         $usuario = $bd->obtenerResultado();
         if($usuario){
