@@ -223,20 +223,21 @@ export async function modificar() {
     if (categoriasDatos2.codigo == "200") {
       if (categoriasDatos2.datos.nombre != categoriasDatos.datos.nombre) {
         alert("Ya existe una categoria con este nombre o ID");
+        return;
       }
-    } else {
-      let cagetorias_id = await modificarClientesCategorias(
-        Number(clientesCat.id),
-        clientesCat.nombre,
-        Number(clientesCat.estado)
-      );
+    }
 
-      if (cagetorias_id.codigo == "200") {
-        alert("Categoria modificada con existo.");
-        window.location.href = "./../pages/ClienteCat.php";
-      } else {
-        alert(cagetorias_id.datos);
-      }
+    let cagetorias_id = await modificarClientesCategorias(
+      Number(clientesCat.id),
+      clientesCat.nombre,
+      Number(clientesCat.estado)
+    );
+
+    if (cagetorias_id.codigo == "200") {
+      alert("Categoria modificada con existo.");
+      window.location.href = "./../pages/ClienteCat.php";
+    } else {
+      alert(cagetorias_id.datos);
     }
   } else if (categoriasDatos.codigo == "404") {
     alert("No existe una categoria con este nombre o ID");
