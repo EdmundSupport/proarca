@@ -42,31 +42,56 @@ export async function obtenerConNombresApellidos(nombres, apellidos) {
     .catch((error) => console.log("error", error));
 }
 
-export async function crearPersonas() {
-  usuarios.usuario = document.getElementById("usuario").value;
-  usuarios.contra = document.getElementById("contra").value;
+export async function obtenerConId(id) {
+  verifDatos.verifTipoDato(id, "number");
+
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+  var urlencoded = new URLSearchParams();
+  urlencoded.append("accion", "obtenerConNombresApellidos");
+  urlencoded.append("personas_id", id);
+
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: "follow",
+  };
+
+  return await fetch(config.host + "models/Personas.php", requestOptions)
+    .then((response) => response.text())
+    .then((result) => {
+      return JSON.parse(result);
+    })
+    .catch((error) => console.log("error", error));
 }
 
-export async function iniciarSesion() {
-  usuarios.usuario = document.getElementById("usuario").value;
-  usuarios.contra = document.getElementById("contra").value;
+export async function crearPersonas(nombres, apellidos, fecha_nac) {
+  verifDatos.verifTipoDato(nombres, "string");
+  verifDatos.verifTipoDato(apellidos, "string");
+  verifDatos.verifTipoDato(fecha_nac, "string");
 
-  let usuarioDatos = await obtenerConUsuarioContra(
-    usuarios.usuario,
-    usuarios.contra
-  );
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-  console.log(usuarioDatos);
+  var urlencoded = new URLSearchParams();
+  urlencoded.append("accion", "crear");
+  urlencoded.append("nombres", nombres);
+  urlencoded.append("apellidos", apellidos);
+  urlencoded.append("fecha_nac", fecha_nac);
 
-  if (usuarioDatos.codigo != "200") {
-    alert(usuarioDatos.datos);
-  } else if (usuarioDatos.codigo == "200") {
-    alert(usuarioDatos.datos);
-    window.location.href = "../../pages/Inicio.php";
-  }
-}
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: "follow",
+  };
 
-export async function registrarse() {
-  usuarios.usuario = document.getElementById("usuario").value;
-  usuarios.contra = document.getElementById("contra").value;
+  return await fetch(config.host + "models/Personas.php", requestOptions)
+    .then((response) => response.text())
+    .then((result) => {
+      return JSON.parse(result);
+    })
+    .catch((error) => console.log("error", error));
 }

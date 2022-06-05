@@ -27,7 +27,27 @@
         if($personas){
             return MensajeUsuario(200, $personas);
         }else{
-            return MensajeUsuario(404, false);
+            return MensajeUsuario(404, "No se encontraron personas");
+        }
+    }
+
+    function obtenerConId($id){
+        global $bd;
+
+        $id = verficarDato($id, "id", "existe", "vacio", "numero");
+        if($id["codigo"] != 200) return $id;
+
+
+        $id = $id["datos"];
+
+        $bd->consulta("SELECT personas_id, nombres, apellidos, DATE_FORMAT(fecha_nac, '%d-%m-%Y %H:%i:%s') AS fecha_nac, estado 
+        FROM personas 
+        WHERE personas_id = $id");
+        $personas = $bd->obtenerResultado();
+        if($personas){
+            return MensajeUsuario(200, $personas);
+        }else{
+            return MensajeUsuario(404, "No se encontraron personas");
         }
     }
 
@@ -76,6 +96,11 @@
     
             case "obtenerConNombresApellidos":{
                 echo json_encode(obtenerConNombresApellidos($_POST["nombres"], $_POST["apellidos"]));
+                break;
+            }
+
+            case "obtenerConId":{
+                echo json_encode(obtenerConId($_POST["personas_id"]));
                 break;
             }
             

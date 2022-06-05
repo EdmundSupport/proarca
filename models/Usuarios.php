@@ -10,6 +10,24 @@
     require_once("Basedatos.php");
     $bd = new Basedatos();
     
+    function obtenerConUsuario($usuario){
+        global $bd;
+
+        $usuario = verficarDato($usuario, "usuario", "existe", "vacio", "longitud=0-50");
+        if($usuario["codigo"] != 200) return $usuario;
+
+        $usuario = $usuario["datos"];
+
+        $bd->consulta("SELECT * FROM usuarios WHERE usuario = '$usuario'");
+        $usuario = $bd->obtenerResultado();
+        if($usuario){
+            $usuario = MensajeUsuario(200, $usuario);
+            return $usuario;
+        }else{
+            return MensajeUsuario(404, "No se encontro el usuario.");
+        }
+    }
+
     function obtenerConUsuarioContra($usuario, $contra){
         global $bd;
 
@@ -31,6 +49,35 @@
         }
     }
 
+    function crearUsuario($usuario, $contra, $personas_id){
+        global $bd;
+        $usuario = verficarDato($usuario, "usuario", "existe", "vacio", "longitud=0-50");
+        if($usuario["codigo"] != 200) return $usuario;
+        $contra = verficarDato($contra, "contra", "existe", "vacio", "longitud=8-20");
+        if($contra["codigo"] != 200) return $contra;
+        $personas_id = verficarDato($personas_id, "apellidos", "existe", "numero-negativo");
+        if($personas_id["codigo"] != 200) return $personas_id;
+
+        $estado = 1; // Crear la usuario como activa
+
+        $usuario = $usuario["datos"];
+        $contra = $contra["datos"];
+        $personas_id = $personas_id["datos"];
+        
+        $existeUsuario = obtenerConUsuario($usuario);
+        if($existeUsuario["codigo"] == 200){
+            return MensajeUsuario(200,$existeUsuario["datos"]["usuarios_id"]);
+        }else{
+            $bd->consulta("INSERT INTO usuarios  
+            (usuario, contra, personas_id, estado)
+            VALUES
+            ('$usuario', '$contra', $personas_id, $estado)");
+            $bd->ejecutar();
+            
+            return MensajeUsuario(200,$bd->ultimoIdInsertado());
+        }  
+    }
+
     if(isset($_POST["accion"])){
         header('Content-Type: application/json; charset=utf-8');
 
@@ -40,46 +87,16 @@
                 break;
             }
             case "crear":{
-                verficarDato($_POST["nombres"], "nombres", "existe", "vacio");
-                verficarDato($_POST["apellidos"], "apellidos", "existe", "vacio");
-                verficarDato($_POST["usuario"], "usuario", "existe", "vacio");
-                verficarDato($_POST["contra"], "contrasena", "existe", "vacio");
-    
-                $estado = (isset($_POST["estado"])?$_POST["estado"]:0);
-     
-                $nombres = $_POST["nombres"]; 
-                $apellidos = $_POST["apellidos"];
-                $usuario = $_POST["usuario"];
-                $contra = $_POST["contra"];
-                $estado = $_POST["estado"];
-     
-                $bd->consulta("SELECT id FROM personas WHERE nombres = '$nombres' AND apellidos = 'apellidos'");
-                $persona = $bd->obtenerResultado();
-                if(!$persona){
-                    $bd->consulta("INSERT INTO personas
-                    (nombres, apellidos, estado)
-                    VALUES
-                    ('$nombres', '$apellidos', '$estado')");
-                    $nuevoUsuario = $bd->ejecutar();
-                    
-                    MensajeUsuario(404, "No se encontro la persona");
-                }
-    
-                $bd->consulta("SELECT * FROM usuarios WHERE usuario = '$usuario'");
-                $usuario = $bd->obtenerResultado();
-                if($usuario){
-                    MensajeUsuario(404, "El usuario ya existe");
-                }
-    
-                $bd->consulta("INSERT INTO usuar 
-                ()
-                VALUES
-                ()");
-                $usuario = $bd->obtenerResultado();
-    
+                global $bd;
+                echo json_encode(crearUsuario($_POST["usuario"], $_POST["contra"], $_POST["personas_id"]));
                 break;
             }
     
+            case "obtenerConUsuario":{
+                echo json_encode(obtenerConUsuario($_POST["usuario"]));
+                break;
+            }
+
             case "obtenerConUsuarioContra":{
                 echo json_encode(obtenerConUsuarioContra($_POST["usuario"], $_POST["contra"]));
                 break;
