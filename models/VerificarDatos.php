@@ -82,13 +82,18 @@ function verficarDato($dato, $campo, ...$args){
                         return MensajeUsuario(400, "El $campo no es una fecha valida. Ej. 01/01/2022");
                     }
                 }else{
-                    return MensajeUsuario(200, "01-01-2022");
+                    return MensajeUsuario(200, "01/01/2022");
                 }
                 break;
             }
         }
     }
     return MensajeUsuario(200, $dato);
+}
+
+function formatoFecha($fecha){
+    $split = explode("/", $fecha);
+    return $split[2]."-".$split[1]."-".$split[0];
 }
 
 ?>
