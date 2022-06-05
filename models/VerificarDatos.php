@@ -86,6 +86,14 @@ function verficarDato($dato, $campo, ...$args){
                 }
                 break;
             }
+
+            case "numero-booleano":{ //email
+                if($dato != 1 && $dato != 0){
+                    return MensajeUsuario(400, "El $campo no es un numero booleano.");
+                }
+                break;
+            }
+
         }
     }
     return MensajeUsuario(200, $dato);

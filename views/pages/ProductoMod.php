@@ -7,7 +7,9 @@ if(!isset($_SESSION)) session_start();
 
 include_once("../../controlers/Config.php");
 require_once("$dirModels/ProductosCategorias.php");
-$categoria = obtenerProductosCategoriasConId($_GET["id"])["datos"];
+require_once("$dirModels/Productos.php");
+$categorias = obtenerProductosCategorias()["datos"];
+$producto = obtenerProductosConId($_GET["id"])["datos"];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -34,8 +36,8 @@ $categoria = obtenerProductosCategoriasConId($_GET["id"])["datos"];
   <link id="pagestyle" href="<?=$dirViews?>/assets/css/styles.css?v=0.0.0" rel="stylesheet" />
 
   <script type="module">
-    import * as productosCat from "../assets/js/pages/ProductosCatScript.js";
-    window.productosCat = productosCat;
+    import * as productos from "../assets/js/pages/ProductosScript.js";
+    window.productos = productos;
   </script>
 </head>
 
@@ -54,25 +56,65 @@ $categoria = obtenerProductosCategoriasConId($_GET["id"])["datos"];
             <div class="col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto">
               <div class="card card-plain">
                 <div class="card-header">
-                  <h4 class="font-weight-bolder">Modificar Categorias</h4>
-                  <p class="mb-0">Ingrese la informacion para modificar la categoria.</p>
+                  <h4 class="font-weight-bolder">Modificar Productos</h4>
+                  <p class="mb-0">Ingrese la informacion para modificar la producto.</p>
                 </div>
                 <div class="card-body">
                   <form role="form">
                     <div class="input-group input-group-outline mb-3">
                       <label class="form-label">ID</label>
-                      <input type="text" readonly class="form-control" id="id" value="<?=$categoria["categorias_id"]?>">
+                      <input type="text" readonly class="form-control" id="id" value=<?=$producto["productos_id"]?>>
                     </div>
                     <div class="input-group input-group-outline mb-3">
-                      <label class="form-label">Nombre</label>
-                      <input type="text" class="form-control" id="nombre" value="<?=$categoria["nombre"]?>">
+                      <label class="form-label">SKU</label>
+                      <input type="text" class="form-control" id="sku" value=<?=$producto["SKU"]?>>
+                    </div>
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Descripcion</label>
+                      <input type="text" class="form-control" id="descripcion" value=<?=$producto["descripcion"]?>>
                     </div>
                     <div class="form-check form-switch ps-0">
-                      <input class="form-check-input ms-auto" type="checkbox" id="estado" <?=($categoria["estado"]==1)?"checked":""?> >
-                      <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="estado">Activo</label>
+                      <input class="form-check-input ms-auto" type="checkbox" id="es_servicio" <?=($producto["es_servicio"] == 1?"checked":"")?>>
+                      <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="estado">Servicio</label>
+                    </div>
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Precio Hora</label>
+                      <input type="number" class="form-control" id="precio_hora" value=<?=$producto["precio_hora"]?>>
+                    </div>
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Precio Dia</label>
+                      <input type="number" class="form-control" id="precio_dia" value=<?=$producto["precio_dia"]?>>
+                    </div>
+                    <div class="form-check form-switch ps-0">
+                      <input class="form-check-input ms-auto" type="checkbox" id="estado" <?=($producto["estado"] == 1?"checked":"")?>>
+                      <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="estado">Estado</label>
+                    </div>
+                    <div class="form-check form-switch ps-0">
+                      <input class="form-check-input ms-auto" type="checkbox" id="es_combo" <?=($producto["es_combo"] == 1?"checked":"")?>>
+                      <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="estado">Combo</label>
+                    </div>
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Costo</label>
+                      <input type="number" class="form-control" id="costo" value=<?=$producto["costo"]?>>
+                    </div>
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Categorias</label>
+                      <br>
+                    </div>
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label"></label>
+                      <select class="form-select" aria-label="Default select example" id="categorias_id">
+                        <?php foreach($categorias as $categoria){ ?>
+                          <option 
+                          value="<?=$categoria["categorias_id"]?>" 
+                          <?=($producto["categorias_id"] == $categoria["categorias_id"]?"selected":"")?>>
+                          <?=$categoria["nombre"]?>
+                        </option>
+                        <?php } ?>
+                      </select>
                     </div>
                     <div class="text-center">
-                      <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0" onclick="productosCat.modificar()">Modificar</button>
+                      <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0" onclick="productos.modificar()">Modificar</button>
                     </div>
                   </form>
                 </div>
