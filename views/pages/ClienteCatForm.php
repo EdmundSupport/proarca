@@ -5,9 +5,7 @@ error_reporting(E_ALL);
 
 if(!isset($_SESSION)) session_start();
 
-require_once("../../controlers/Config.php");
-require_once("$dirModels/ClientesCategorias.php");
-$categorias = obtenerClientesCategorias()["datos"];
+include_once("../../controlers/Config.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -31,10 +29,12 @@ $categorias = obtenerClientesCategorias()["datos"];
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="<?=$dirViews?>/assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
-  <!-- <script type="module">
+  <link id="pagestyle" href="<?=$dirViews?>/assets/css/styles.css?v=0.0.0" rel="stylesheet" />
+
+  <script type="module">
     import * as clientesCat from "../assets/js/pages/ClientesCatScript.js";
     window.clientesCat = clientesCat;
-  </script> -->
+  </script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -45,63 +45,37 @@ $categorias = obtenerClientesCategorias()["datos"];
     <?php include_once("$dirPages/Encabezado.php"); ?>
     <div class="container-fluid py-4">
       <!-- Contenido -->
-      <div class="row">
-        <div class="col-12">
-          <div class="card my-4">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Categoria Clientes</h6>
-              </div>
-            </div>
-            <div class="card-body px-0 pb-2">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nombre</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estado</th>
-                      <th class="text-secondary opacity-7"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php if(!is_array($categorias)){ ?>
-                      <tr>
-                        <td>
-                          <?=$categorias?>
-                    </td>
-                    </tr>
-                    <?php }else{ 
-                    foreach($categorias as $categoria){ ?> 
-                    <tr>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0"><?=$categoria["categorias_id"]?></p>
-                      </td>
-                      <td>
-                        <p class="text-xs text-secondary mb-0"><?=$categoria["nombre"]?></p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <?php if($categoria["estado"] == 1){ ?>
-                        <span class="badge badge-sm bg-gradient-success">Activo</span>
-                        <?php }else{ ?>
-                        <span class="badge badge-sm bg-gradient-secondary">Inactivo</span>
-                        <?php } ?>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                    <?php }
-                    } ?>
-                  </tbody>
-                </table>
+      <section>
+      <div class="page-header min-vh-100">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto">
+              <div class="card card-plain">
+                <div class="card-header">
+                  <h4 class="font-weight-bolder">Crear Categorias</h4>
+                  <p class="mb-0">Ingrese la informacion para crear la categoria.</p>
+                </div>
+                <div class="card-body">
+                  <form role="form">
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label">Nombre</label>
+                      <input type="text" class="form-control" id="nombre">
+                    </div>
+                    <div class="form-check form-switch ps-0">
+                      <input class="form-check-input ms-auto" type="checkbox" id="estado" checked>
+                      <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="estado">Activo</label>
+                    </div>
+                    <div class="text-center">
+                      <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0" onclick="clientesCat.crear()">Crear</button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      </section>
       <!-- Pie de Pagina -->
       <?php include_once("$dirPages/PiePagina.php"); ?>
     </div>
