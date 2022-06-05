@@ -31,10 +31,10 @@ $categorias = obtenerClientesCategorias()["datos"];
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="<?=$dirViews?>/assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
-  <!-- <script type="module">
+  <script type="module">
     import * as clientesCat from "../assets/js/pages/ClientesCatScript.js";
     window.clientesCat = clientesCat;
-  </script> -->
+  </script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -93,7 +93,10 @@ $categorias = obtenerClientesCategorias()["datos"];
                         <a href="<?=$dirViews?>/pages/ClienteCatMod.php?id=<?=$categoria["categorias_id"]?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Editar
                         </a>
-                      </td>
+                        <a href="javascript:clientesCat.eliminar(<?=$categoria["categorias_id"]?>);" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Eliminar
+                        </a>
+                        </td>
                     </tr>
                     <?php }
                     } ?>

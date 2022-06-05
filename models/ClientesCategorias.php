@@ -105,6 +105,22 @@
          
     }
 
+    function eliminarClientesCategorias($id){
+        global $bd;
+        
+        $id = verficarDato($id, "id", "existe", "vacio", "numero-negativo");
+        if($id["codigo"] != 200) return $id;
+        
+        $id = $id["datos"];
+
+        $bd->consulta("DELETE FROM categorias_clientes
+        WHERE categorias_id = $id");
+        $bd->ejecutar();
+        
+        return MensajeUsuario(200,"Categoria eliminada con exito");
+         
+    }
+
     if(isset($_POST["accion"])){
         header('Content-Type: application/json; charset=utf-8');
 
@@ -135,6 +151,11 @@
 
             case "modificar":{
                 echo json_encode(modificarClientesCategorias($_POST["id"], $_POST["nombre"],$_POST["estado"]));
+                break;
+            }
+            
+            case "eliminar":{
+                echo json_encode(eliminarClientesCategorias($_POST["id"]));
                 break;
             }
             

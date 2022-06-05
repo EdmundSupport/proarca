@@ -151,6 +151,33 @@ export async function modificarClientesCategorias(id, nombre, estado) {
     })
     .catch((error) => console.log("error", error));
 }
+export async function eliminarClientesCategorias(id) {
+  verifDatos.verifTipoDato(id, "number");
+
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+  var urlencoded = new URLSearchParams();
+  urlencoded.append("accion", "eliminar");
+  urlencoded.append("id", id);
+
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: "follow",
+  };
+
+  return await fetch(
+    config.host + "models/ClientesCategorias.php",
+    requestOptions
+  )
+    .then((response) => response.text())
+    .then((result) => {
+      return JSON.parse(result);
+    })
+    .catch((error) => console.log("error", error));
+}
 
 export async function crear() {
   clientesCat.nombre = document.getElementById("nombre").value;
@@ -216,4 +243,11 @@ export async function modificar() {
   } else {
     alert(categoriasDatos.datos);
   }
+}
+
+export async function eliminar(id) {
+  let resultado = await eliminarClientesCategorias(Number(id));
+  console.log(resultado);
+  alert(resultado.datos);
+  location.reload();
 }
