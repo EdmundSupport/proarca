@@ -164,6 +164,8 @@ CREATE TABLE IF NOT EXISTS `proarca`.`categorias_proveedores` (
   PRIMARY KEY (`categorias_id`))
 ENGINE = InnoDB;
 
+ALTER TABLE `proarca`.`categorias_proveedores`
+ADD COLUMN `estado` INT AFTER `nombre`;
 
 -- -----------------------------------------------------
 -- Table `proarca`.`clientes`
