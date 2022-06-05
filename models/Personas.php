@@ -4,8 +4,9 @@
     ini_set('display_startup_errors', 1); 
     error_reporting(E_ALL);
 
-    require_once("./VerificarDatos.php");
-    require_once("./../controlers/Errores.php");
+    require_once(__DIR__."/../controlers/config.php");
+    require_once("$dirModels/VerificarDatos.php");
+    require_once("$dirControlers/Errores.php");
         
     require_once("Basedatos.php");
     $bd = new Basedatos();
@@ -40,7 +41,7 @@
 
         $id = $id["datos"];
 
-        $bd->consulta("SELECT personas_id, nombres, apellidos, DATE_FORMAT(fecha_nac, '%d-%m-%Y %H:%i:%s') AS fecha_nac, estado 
+        $bd->consulta("SELECT personas_id, nombres, apellidos, DATE_FORMAT(fecha_nac, '%d-%m-%Y %H:%i:%s') AS fecha_nac, DATE_FORMAT(fecha_nac, '%Y-%m-%d') AS fecha_nac_input, estado 
         FROM personas 
         WHERE personas_id = $id");
         $personas = $bd->obtenerResultado();
@@ -64,7 +65,7 @@
 
         $nombres = $nombres["datos"];
         $apellidos = $apellidos["datos"];
-        $fecha_nac = $fecha_nac["datos"]." ".date("H:i:s");
+        $fecha_nac = formatoFecha($fecha_nac["datos"])." ".date("H:i:s");
 
         $existePersona = obtenerConNombresApellidos($nombres, $apellidos);
         if($existePersona["codigo"] == 200){
@@ -73,7 +74,7 @@
             $bd->consulta("INSERT INTO personas  
             (nombres, apellidos, fecha_nac, estado)
             VALUES
-            ('$nombres', '$apellidos', STR_TO_DATE('$fecha_nac', '%d-%m-%Y %H:%i:%s'), $estado)");
+            ('$nombres', '$apellidos', '$fecha_nac', $estado)");
             $bd->ejecutar();
             
             return MensajeUsuario(200,$bd->ultimoIdInsertado());
