@@ -5,6 +5,13 @@ error_reporting(E_ALL);
 
 if(!isset($_SESSION)) session_start();
 
+// $_SESSION["token"] = (isset($_GET["token"])?$_GET["token"]:"");
+if(isset($_GET["token"]) && $_GET["token"] != ""){
+  $_SESSION["token"] = $_GET["token"];
+  header("Location: Inicio.php");
+  die();
+}
+
 include_once("../../controlers/Config.php");
 ?>
 <!DOCTYPE html>

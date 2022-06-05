@@ -118,7 +118,8 @@ export async function iniciarSesion() {
     alert(
       "Inicio de sesion exitoso... Bienvenido " + usuarioDatos.datos.usuario
     );
-    window.location.href = "./../pages/Inicio.php";
+    window.location.href =
+      "./../pages/Inicio.php?token=" + urlencoded(usuarioDatos.datos.usuario);
   }
 }
 

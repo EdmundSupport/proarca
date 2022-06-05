@@ -17,7 +17,7 @@
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
-              <?php if(isset($_SESSION["usuario"]) && $_SESSION["usuario"] != ""){ ?>
+              <?php if(isset($_SESSION["token"]) && $_SESSION["token"] != ""){ ?>
               <a href="CerrarSesion.php" class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
                 <span class="d-sm-inline d-none">Cerrar Sesion</span>
