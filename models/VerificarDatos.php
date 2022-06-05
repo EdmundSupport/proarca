@@ -1,5 +1,6 @@
 <?php
-require_once("./../controlers/Errores.php");
+require_once(__DIR__."/../controlers/config.php");
+require_once("$dirControlers/Errores.php");
 function verificarExisteDato($dato, $campo){
     if($dato == false){
         MensajeUsuario(400, "No se recibio el campo $campo");
