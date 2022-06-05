@@ -39,6 +39,23 @@
         }
     }
 
+    function obtenerClientesCategoriasConId($id){
+        global $bd;
+
+        $id = verficarDato($id, "id", "existe", "vacio", "numero-negativo");
+        if($id["codigo"] != 200) return $id;
+
+        $id = $id["datos"];
+
+        $bd->consulta("SELECT * FROM categorias_clientes WHERE categorias_id = '$id'");
+        $categoria = $bd->obtenerResultado();
+        if($categoria){
+            return MensajeUsuario(200,$categoria);
+        }else{
+            return MensajeUsuario(404, "No se encontro la categoria de cliente buscada");
+        }
+    }
+
     function crearClientesCategorias($nombre, $estado){
         global $bd;
 
@@ -65,6 +82,29 @@
          
     }
 
+    function modificarClientesCategorias($id, $nombre, $estado){
+        global $bd;
+        
+        $id = verficarDato($id, "id", "existe", "vacio", "numero-negativo");
+        if($id["codigo"] != 200) return $id;
+        $nombre = verficarDato($nombre, "nombre", "existe", "vacio", "longitud=0-50");
+        if($nombre["codigo"] != 200) return $nombre;
+        $estado = verficarDato($estado, "estado", "existe", "vacio", "numero-negativo");
+        if($estado["codigo"] != 200) return $estado;
+        
+        $id = $id["datos"];
+        $estado = $estado["datos"];
+        $nombre = $nombre["datos"];
+
+        $bd->consulta("UPDATE categorias_clientes
+        SET nombre = '$nombre', estado = $estado
+        WHERE categorias_id = $id");
+        $bd->ejecutar();
+        
+        return MensajeUsuario(200,"Categoria actualizada con exito");
+         
+    }
+
     if(isset($_POST["accion"])){
         header('Content-Type: application/json; charset=utf-8');
 
@@ -82,12 +122,22 @@
                 echo json_encode(obtenerClientesCategoriasConNombre($_POST["nombre"]));
                 break;
             }
+
+            case "obtenerClientesCategoriasConId":{
+                echo json_encode(obtenerClientesCategoriasConId($_POST["id"]));
+                break;
+            }
             
             case "crear":{
                 echo json_encode(crearClientesCategorias($_POST["nombre"],$_POST["estado"]));
                 break;
             }
 
+            case "modificar":{
+                echo json_encode(modificarClientesCategorias($_POST["id"], $_POST["nombre"],$_POST["estado"]));
+                break;
+            }
+            
             default:{
                 echo json_encode(MensajeUsuario(404, "No se encontro la accion"));
                 exit();
